@@ -1,6 +1,3 @@
-from itertools import count
-from os import listdir
-from os.path import isfile, join
 import os
 import shutil
 import csv
@@ -41,7 +38,7 @@ def reset():
     # Make list of all directories.
     reset_program = input("Are you sure you want to reset the program? (y/n)")
     if reset_program == "y" or reset_program == "Y":
-        folders = [mypath+'/output',mypath+'/originals',mypath+'/img1',mypath+'/img2',mypath+'/img3']
+        folders = [mypath+'/output',mypath+'/img1',mypath+'/img2',mypath+'/img3',mypath+'/psd']
         # Go through each directory.
         for folder in folders:
             # Go through files in each directory.
@@ -50,13 +47,14 @@ def reset():
                 try:
                     if os.path.isfile(file_path) or os.path.islink(file_path):
                         os.unlink(file_path)
-                        print("[INFO] "+file_path+" deleted.")
+                        print("[ALERT] "+file_path+" deleted.")
                     elif os.path.isdir(file_path):
                         shutil.rmtree(file_path)
-                        print("[INFO] "+file_path+" deleted.")
+                        print("[ALERT] "+file_path+" deleted.")
                 except Exception as e:
                     print('Failed to delete %s. Reason: %s' % (file_path, e))
-            print("[INFO] Files at "+ folder +" deleted.")
+            print("[ALERT] Files at "+ folder +" deleted.")
+        delete_csv()
         print("[INFO] Program reset.")
         menu()
     else:
@@ -69,36 +67,20 @@ def delete_csv():
     menu()
 
 
-def copytree(src, dst, symlinks=False, ignore=None):
-    for item in os.listdir(src):
-        s = os.path.join(src, item)
-        d = os.path.join(dst, item)
-        if os.path.isdir(s):
-            shutil.copytree(s, d, symlinks, ignore)
-        else:
-            shutil.copy2(s, d)
-    menu()
-
-
 def menu():
     print("\nPS Batch Export Script")
-    print("1)Create spreadsheet \n2)Copy images to original \n3)Reset Program \n4)Delete CSV \n5)Exit")
+    print("1)Create CSV \n2)Reset Program \n3)Exit")
     user = input()
     try:
         if user == "1":
             create_spreadsheet()
         elif user == "2":
-            for source in image_source:
-                copytree(source, originals_dir)
-        elif user == "3":
             reset()
-        elif user == "4":
-            delete_csv()
-        elif user == "5":
+        elif user == "3":
             print("[INFO] Program terminated.")
             exit()
     except:
-        print("something went wrong")
+        print("[WARNING] Something went wrong.")
         menu()
 
 menu()
