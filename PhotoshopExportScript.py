@@ -17,21 +17,24 @@ def create_spreadsheet():
     image3 = [f for f in os.listdir(image_source[2]) if os.path.isfile(join(image_source[2], f))]
     header = ["Image1","Image2","Image3"]
 
+    images = [image1,image2,image3]
 
-    
+    for image_list in images:
+        for image in image_list:
+            if image.endswith(".DS_Store"):
+                image_list.remove(image)
+                print("[ALERT] "+image+" removed.")
+                break
+                
+
     with open('variables.csv', 'w') as f:
         writer = csv.writer(f)
         writer.writerow(header)
         counter = 0
         for image in image1:
-            if image.endswith(".DS_Store"):
-                image1.remove(image)
-                image2.remove(image)
-                image3.remove(image)
-            else:
-                writer.writerow(["img1/"+image1[counter],"img2/"+image2[counter],"img3/"+image3[counter]])
-                counter+=1
-                print("[INFO] Row Created.")
+            writer.writerow(["img1/"+image1[counter],"img2/"+image2[counter],"img3/"+image3[counter]])
+            counter+=1
+            print("[INFO] Row Created.")
     print("[INFO] Spreadsheet Created.")
     menu()
 
