@@ -1,6 +1,7 @@
 import os
 import shutil
 import csv
+from os.path import isfile, join
 
 # Get current path.
 mypath = os.getcwd()
@@ -15,6 +16,8 @@ def create_spreadsheet():
     image2 = [f for f in os.listdir(image_source[1]) if os.path.isfile(join(image_source[1], f))]
     image3 = [f for f in os.listdir(image_source[2]) if os.path.isfile(join(image_source[2], f))]
     header = ["Image1","Image2","Image3"]
+
+
     
     with open('variables.csv', 'w') as f:
         writer = csv.writer(f)
