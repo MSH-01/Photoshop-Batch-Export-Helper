@@ -58,6 +58,11 @@ def reset():
         print("[INFO] Reset Aborted.")
         menu()
 
+def delete_csv():
+    os.remove('variables.csv')
+    print("[INFO] CSV deleted.")
+    menu()
+
 
 def copytree(src, dst, symlinks=False, ignore=None):
     for item in os.listdir(src):
@@ -71,8 +76,8 @@ def copytree(src, dst, symlinks=False, ignore=None):
 
 
 def menu():
-    print("PS Batch Export Script")
-    print("1)Create spreadsheet \n2)Copy images to original \n3)Reset Program \n4)Exit")
+    print("\nPS Batch Export Script")
+    print("1)Create spreadsheet \n2)Copy images to original \n3)Reset Program \n4)Delete CSV \n5)Exit")
     user = input()
     try:
         if user == "1":
@@ -83,6 +88,8 @@ def menu():
         elif user == "3":
             reset()
         elif user == "4":
+            delete_csv()
+        elif user == "5":
             print("[INFO] Program terminated.")
             exit()
     except:
