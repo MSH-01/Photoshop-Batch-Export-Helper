@@ -1,8 +1,9 @@
+from itertools import count
 from os import listdir
 from os.path import isfile, join
-import xlsxwriter
 import os
 import shutil
+import csv
 
 # Get current path.
 mypath = os.getcwd()
@@ -13,29 +14,22 @@ originals_dir = mypath+'/originals'
 
 
 def create_spreadsheet():
-
-    # Create lists of images.
     image1 = [f for f in os.listdir(image_source[0]) if os.path.isfile(join(image_source[0], f))]
     image2 = [f for f in os.listdir(image_source[1]) if os.path.isfile(join(image_source[1], f))]
     image3 = [f for f in os.listdir(image_source[2]) if os.path.isfile(join(image_source[2], f))]
+    header = ["Image1","Image2","Image3"]
 
-    # Create a workbook and add a worksheet.
-    workbook = xlsxwriter.Workbook('variables.xlsx')
-    worksheet = workbook.add_worksheet()
-    # Write the top header cells.
-    worksheet.write(0,0, "Image1")
-    worksheet.write(0,1, "Image2")
-    worksheet.write(0,2, "Image3")
-    # Write image names for each row.
-    for image in image1:
-        worksheet.write_column(1,0,image1)
-        worksheet.write_column(1,1,image2)
-        worksheet.write_column(1,2,image3)
-        print("[INFO] Row Created.")
+    with open('variables.csv', 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+        counter = 0
+        for image in image1:
+            writer.writerow(["img1/"+image1[counter],"img2/"+image2[counter],"img3/"+image3[counter]])
+            counter+=1
+            print("[INFO] Row Created.")
     print("[INFO] Spreadsheet Created.")
-    # Close the workbook.
-    workbook.close()
     menu()
+
 
 
 def reset():
