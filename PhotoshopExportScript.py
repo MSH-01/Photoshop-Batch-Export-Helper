@@ -21,7 +21,7 @@ def create_spreadsheet():
 
     for image_list in images:
         for image in image_list:
-            if image.endswith(".DS_Store"):
+            if image.endswith(".DS_Store") or image.endswith(".txt"):
                 image_list.remove(image)
                 print("[ALERT] "+image+" removed.")
                 break
@@ -68,9 +68,11 @@ def reset():
         menu()
 
 def delete_csv():
-    os.remove('variables.csv')
-    print("[INFO] CSV deleted.")
-    menu()
+    try:
+        os.remove('variables.csv')
+        print("[ALERT] CSV deleted.")
+    except:
+        print("[ALERT] CSV not found / already deleted")
 
 
 def menu():
