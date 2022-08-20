@@ -2,6 +2,7 @@ import os
 import shutil
 import csv
 from os.path import isfile, join
+import glob
 
 # Get current path.
 mypath = os.getcwd()
@@ -22,6 +23,7 @@ def create_spreadsheet():
 
     # Defines list of image folders   
     images = [image1,image2,image3]
+
 
     # Gets rid of any non .jpg files (!!!REPLACE THIS!!!)
     for image_list in images:
@@ -76,6 +78,20 @@ def reset():
         print("[INFO] Reset Aborted.")
         menu()
 
+def reset_image_folders():
+    # Make list of all image directories.
+    image_folders = glob.glob('img*')
+    for item in image_folders:
+        if os.path.isdir(item):
+            shutil.rmtree(item)
+            print("[ALERT] "+item+" deleted.")
+        else:
+            print("[ALERT] "+item+" not found.")
+
+
+def img_folder_count():
+    # Counts number of image folders.
+    return len(glob.glob('img*'))
 
 def create_image_directories(img_count):
     # Create directories for each image.
@@ -90,6 +106,7 @@ def create_image_directories(img_count):
 
 
 def menu():
+
     print("\nPS Batch Export Script")
     print("1)Create CSV \n2)Reset Program \n4)Create Directories \n3)Exit")
     user = input()
@@ -97,7 +114,7 @@ def menu():
         if user == "1":
             create_spreadsheet()
         elif user == "2":
-            reset()
+            reset_image_folders()
         elif user == "3":
             print("[INFO] Program terminated.")
             exit()
