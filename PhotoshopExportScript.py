@@ -6,11 +6,6 @@ import glob
 
 # Get current path.
 mypath = os.getcwd()
-# Define image source directories.
-image_source = [mypath+'/img1',mypath+'/img2',mypath+'/img3']
-# Define output directory.
-originals_dir = mypath+'/originals'
-
 
 def create_spreadsheet():
     # Defines a list for each image folder and populates it with paths of images.
