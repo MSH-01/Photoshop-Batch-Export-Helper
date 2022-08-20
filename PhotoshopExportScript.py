@@ -12,13 +12,18 @@ originals_dir = mypath+'/originals'
 
 
 def create_spreadsheet():
+    # Defines a list for each image folder and populates it with paths of images.
     image1 = [f for f in os.listdir(image_source[0]) if os.path.isfile(join(image_source[0], f))]
     image2 = [f for f in os.listdir(image_source[1]) if os.path.isfile(join(image_source[1], f))]
     image3 = [f for f in os.listdir(image_source[2]) if os.path.isfile(join(image_source[2], f))]
+
+    # Needs to be updated to make as many columns as are image folders.
     header = ["Image1","Image2","Image3"]
 
+    # Defines list of image folders   
     images = [image1,image2,image3]
 
+    # Gets rid of any non .jpg files (!!!REPLACE THIS!!!)
     for image_list in images:
         for image in image_list:
             if image.endswith(".DS_Store") or image.endswith(".txt"):
@@ -26,7 +31,7 @@ def create_spreadsheet():
                 print("[ALERT] "+image+" removed.")
                 break
                 
-
+    # Writes CSV
     with open('variables.csv', 'w') as f:
         writer = csv.writer(f)
         writer.writerow(header)
@@ -39,7 +44,7 @@ def create_spreadsheet():
     menu()
 
 
-
+#DEPRICATED
 def reset():
     # Make list of all directories.
     reset_program = input("Are you sure you want to reset the program? (y/n)")
@@ -60,24 +65,33 @@ def reset():
                 except Exception as e:
                     print('Failed to delete %s. Reason: %s' % (file_path, e))
             print("[ALERT] Files at "+ folder +" deleted.")
-        delete_csv()
+        try:
+            os.remove('variables.csv')
+            print("[ALERT] CSV deleted.")
+        except:
+            print("[ALERT] CSV not found / already deleted")
         print("[INFO] Program reset.")
         menu()
     else:
         print("[INFO] Reset Aborted.")
         menu()
 
-def delete_csv():
+
+def create_image_directories(img_count):
+    # Create directories for each image.
     try:
-        os.remove('variables.csv')
-        print("[ALERT] CSV deleted.")
+        for i in range(img_count):
+            os.mkdir(mypath+'/img'+str(i+1))
+        print("[INFO] Image directories created.")
+        menu()
     except:
-        print("[ALERT] CSV not found / already deleted")
+        print("[ALERT] Image directories already exist.")
+        menu()
 
 
 def menu():
     print("\nPS Batch Export Script")
-    print("1)Create CSV \n2)Reset Program \n3)Exit")
+    print("1)Create CSV \n2)Reset Program \n4)Create Directories \n3)Exit")
     user = input()
     try:
         if user == "1":
@@ -87,6 +101,9 @@ def menu():
         elif user == "3":
             print("[INFO] Program terminated.")
             exit()
+        elif user == "4":
+            img_count = input("How many image folders do you want to create? ")
+            create_image_directories(int(img_count))
     except:
         print("[WARNING] Something went wrong.")
         menu()
