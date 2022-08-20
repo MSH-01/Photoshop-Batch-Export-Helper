@@ -45,8 +45,7 @@ def create_spreadsheet():
     print("[INFO] Spreadsheet Created.")
     menu()
 
-#DEPRACATED
-def reset():
+
     # Make list of all directories.
     reset_program = input("Are you sure you want to reset the program? (y/n)")
     if reset_program == "y" or reset_program == "Y":
@@ -114,7 +113,13 @@ def menu():
         if user == "1":
             create_spreadsheet()
         elif user == "2":
-            reset_image_folders()
+            print("[ALERT] DOING THIS WILL DELETE ALL IMG FOLDERS AND THEIR CONTENTS!")
+            reset_program = input("Are you sure you want to reset the program? (y/n)")
+            if reset_program == "y" or reset_program == "Y":
+                reset_image_folders()
+            else:
+                print("[INFO] Reset Aborted.")
+                menu()
         elif user == "3":
             print("[INFO] Program terminated.")
             exit()
