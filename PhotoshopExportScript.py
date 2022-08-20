@@ -45,8 +45,7 @@ def create_spreadsheet():
     print("[INFO] Spreadsheet Created.")
     menu()
 
-
-#DEPRICATED
+#DEPRACATED
 def reset():
     # Make list of all directories.
     reset_program = input("Are you sure you want to reset the program? (y/n)")
@@ -84,10 +83,12 @@ def reset_image_folders():
     for item in image_folders:
         if os.path.isdir(item):
             shutil.rmtree(item)
-            print("[ALERT] "+item+" deleted.")
-        else:
-            print("[ALERT] "+item+" not found.")
+            print("[ALERT] /"+item+" deleted.")
 
+        else:
+            print("[ALERT] /"+item+" not found.")
+    print("[INFO] Image folders reset.")
+    menu()
 
 def img_folder_count():
     # Counts number of image folders.
@@ -103,7 +104,6 @@ def create_image_directories(img_count):
     except:
         print("[ALERT] Image directories already exist.")
         menu()
-
 
 def menu():
 
