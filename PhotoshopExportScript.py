@@ -86,7 +86,10 @@ def reset_image_folders():
 
 def img_folder_count():
     # Counts number of image folders.
-    return len(glob.glob('img*'))
+    return len(img_folder_list())
+
+def img_folder_list():
+    return glob.glob('img*')
 
 def create_image_directories(img_count):
     # Create directories for each image.
@@ -106,7 +109,7 @@ def menu():
     user = input()
     try:
         if user == "1":
-            create_spreadsheet()
+            create_spreadsheet_new()
         elif user == "2":
             print("[ALERT] DOING THIS WILL DELETE ALL IMG FOLDERS AND THEIR CONTENTS!")
             reset_program = input("Are you sure you want to reset the program? (y/n)")
@@ -124,5 +127,32 @@ def menu():
     except:
         print("[WARNING] Something went wrong.")
         menu()
+
+
+def create_spreadsheet_new():
+    folders = img_folder_list()
+    folders.sort()
+    images = []
+    header = []
+    count = 0
+    for folder in folders:
+        images.append([f for f in os.listdir(mypath+'/'+folder) if os.path.isfile(join(mypath+'/'+folder, f))])
+    
+    for i in range(img_folder_count()):
+        header.append("Image"+str(i+1))
+
+    # Gets rid of any non .jpg files (!!!REPLACE THIS!!!)
+    for image_list in images:
+        for image in image_list:
+            if image.endswith(".jpg") or image.endswith(".png"):
+                print("[ALERT] "+image+" skipped.")
+            else:
+                image_list.remove(image)
+                print("[ALERT] "+image+" removed.")
+
+
+    print("[INFO] Spreadsheet Created.")
+    menu()
+
 
 menu()
