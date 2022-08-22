@@ -40,36 +40,34 @@ def create_spreadsheet():
     print("[INFO] Spreadsheet Created.")
     menu()
 
+def create_spreadsheet_new():
+    folders = img_folder_list()
+    folders.sort()
+    images = []
+    header = []
+    count = 0
+    for folder in folders:
+        images.append([f for f in os.listdir(mypath+'/'+folder) if os.path.isfile(join(mypath+'/'+folder, f))])
+        print(folder)
+    
+    for i in range(img_folder_count()):
+        header.append("Image"+str(i+1))
 
-    # Make list of all directories.
-    reset_program = input("Are you sure you want to reset the program? (y/n)")
-    if reset_program == "y" or reset_program == "Y":
-        folders = [mypath+'/output',mypath+'/img1',mypath+'/img2',mypath+'/img3',mypath+'/psd']
-        # Go through each directory.
-        for folder in folders:
-            # Go through files in each directory.
-            for filename in os.listdir(folder):
-                file_path = os.path.join(folder, filename)
-                try:
-                    if os.path.isfile(file_path) or os.path.islink(file_path):
-                        os.unlink(file_path)
-                        print("[ALERT] "+file_path+" deleted.")
-                    elif os.path.isdir(file_path):
-                        shutil.rmtree(file_path)
-                        print("[ALERT] "+file_path+" deleted.")
-                except Exception as e:
-                    print('Failed to delete %s. Reason: %s' % (file_path, e))
-            print("[ALERT] Files at "+ folder +" deleted.")
-        try:
-            os.remove('variables.csv')
-            print("[ALERT] CSV deleted.")
-        except:
-            print("[ALERT] CSV not found / already deleted")
-        print("[INFO] Program reset.")
-        menu()
-    else:
-        print("[INFO] Reset Aborted.")
-        menu()
+    # Gets rid of any non .jpg files (!!!REPLACE THIS!!!)
+    for image_list in images:
+        for image in image_list:
+            if image.endswith(".jpg") or image.endswith(".png"):
+                print("[ALERT] "+image+" skipped.")
+            else:
+                image_list.remove(image)
+                print("[ALERT] "+image+" removed.")
+    
+    # Writes CSV
+    
+    
+
+    print("[INFO] Spreadsheet Created.")
+    menu()
 
 def reset_image_folders():
     # Make list of all image directories.
@@ -127,32 +125,5 @@ def menu():
     except:
         print("[WARNING] Something went wrong.")
         menu()
-
-
-def create_spreadsheet_new():
-    folders = img_folder_list()
-    folders.sort()
-    images = []
-    header = []
-    count = 0
-    for folder in folders:
-        images.append([f for f in os.listdir(mypath+'/'+folder) if os.path.isfile(join(mypath+'/'+folder, f))])
-    
-    for i in range(img_folder_count()):
-        header.append("Image"+str(i+1))
-
-    # Gets rid of any non .jpg files (!!!REPLACE THIS!!!)
-    for image_list in images:
-        for image in image_list:
-            if image.endswith(".jpg") or image.endswith(".png"):
-                print("[ALERT] "+image+" skipped.")
-            else:
-                image_list.remove(image)
-                print("[ALERT] "+image+" removed.")
-
-
-    print("[INFO] Spreadsheet Created.")
-    menu()
-
 
 menu()
