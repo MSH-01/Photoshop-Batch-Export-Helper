@@ -15,7 +15,7 @@ def create_spreadsheet():
     folder_list = []
     header = []
     for folder in folders:
-        folder_list.append([f for f in os.listdir(mypath+'/'+folder) if f.endswith(".jpg") or f.endswith(".png")])
+        folder_list.append([folder+"/"+f for f in os.listdir(mypath+'/'+folder) if f.endswith(".jpg") or f.endswith(".png")])
     
     for i in range(img_folder_count()):
         header.append("Image"+str(i+1))
@@ -68,7 +68,7 @@ def create_image_directories(img_count):
 def menu():
 
     print("\nPS Batch Export Script")
-    print("1)Create CSV \n2)Reset Program \n4)Create Directories \n3)Exit")
+    print("1)Create CSV \n2)Reset Program \n3)Create Directories \n4)Exit")
     user = input()
     try:
         if user == "1":
@@ -82,11 +82,12 @@ def menu():
                 print("[INFO] Reset Aborted.")
                 menu()
         elif user == "3":
-            print("[INFO] Program terminated.")
-            exit()
-        elif user == "4":
             img_count = input("How many image folders do you want to create? ")
             create_image_directories(int(img_count))
+        elif user == "4":
+            print("[INFO] Program terminated.")
+            exit()
+
     except:
         print("[WARNING] Something went wrong.")
         menu()
