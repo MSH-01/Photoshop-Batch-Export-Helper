@@ -3,70 +3,35 @@ import shutil
 import csv
 from os.path import isfile, join
 import glob
+import numpy
 
 # Get current path.
 mypath = os.getcwd()
 
+
 def create_spreadsheet():
-    # Defines a list for each image folder and populates it with paths of images.
-    image1 = [f for f in os.listdir(image_source[0]) if os.path.isfile(join(image_source[0], f))]
-    image2 = [f for f in os.listdir(image_source[1]) if os.path.isfile(join(image_source[1], f))]
-    image3 = [f for f in os.listdir(image_source[2]) if os.path.isfile(join(image_source[2], f))]
-
-    # Needs to be updated to make as many columns as are image folders.
-    header = ["Image1","Image2","Image3"]
-
-    # Defines list of image folders   
-    images = [image1,image2,image3]
-
-
-    # Gets rid of any non .jpg files (!!!REPLACE THIS!!!)
-    for image_list in images:
-        for image in image_list:
-            if image.endswith(".DS_Store") or image.endswith(".txt"):
-                image_list.remove(image)
-                print("[ALERT] "+image+" removed.")
-                break
-                
-    # Writes CSV
-    with open('variables.csv', 'w') as f:
-        writer = csv.writer(f)
-        writer.writerow(header)
-        counter = 0
-        for image in image1:
-            writer.writerow(["img1/"+image1[counter],"img2/"+image2[counter],"img3/"+image3[counter]])
-            counter+=1
-            print("[INFO] Row Created.")
-    print("[INFO] Spreadsheet Created.")
-    menu()
-
-def create_spreadsheet_new():
     folders = img_folder_list()
     folders.sort()
-    images = []
+    folder_list = []
     header = []
-    count = 0
     for folder in folders:
-        images.append([f for f in os.listdir(mypath+'/'+folder) if os.path.isfile(join(mypath+'/'+folder, f))])
-        print(folder)
+        folder_list.append([f for f in os.listdir(mypath+'/'+folder) if f.endswith(".jpg") or f.endswith(".png")])
     
     for i in range(img_folder_count()):
         header.append("Image"+str(i+1))
+    
+    transposed_list = numpy.transpose(folder_list)
 
-    # Gets rid of any non .jpg files (!!!REPLACE THIS!!!)
-    for image_list in images:
-        for image in image_list:
-            if image.endswith(".jpg") or image.endswith(".png"):
-                print("[ALERT] "+image+" skipped.")
-            else:
-                image_list.remove(image)
-                print("[ALERT] "+image+" removed.")
-    
-    # Writes CSV
-    
-    
+    #this works but is hardcoded solution
+    with open('variables.csv', 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+        for row in transposed_list:
+            writer.writerow(row)
+            print("[ALERT] Row Created.")
 
     print("[INFO] Spreadsheet Created.")
+
     menu()
 
 def reset_image_folders():
@@ -107,7 +72,7 @@ def menu():
     user = input()
     try:
         if user == "1":
-            create_spreadsheet_new()
+            create_spreadsheet()
         elif user == "2":
             print("[ALERT] DOING THIS WILL DELETE ALL IMG FOLDERS AND THEIR CONTENTS!")
             reset_program = input("Are you sure you want to reset the program? (y/n)")
