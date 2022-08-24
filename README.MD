@@ -2,8 +2,7 @@
 
 ## Installation
 
-To run this script ensure you have the following Python packages installed:
-``os``,``csv``,``glob``,``numpy`` and ``shutil``.
+To use this script ensure you have the installed the requied python modules. To do this run ``pip install -r requirements.txt``.
 
 ## Usage
 
