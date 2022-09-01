@@ -15,7 +15,7 @@ def create_spreadsheet():
     folder_list = []
     header = []
     for folder in folders:
-        folder_list.append([folder+"/"+f for f in os.listdir(mypath+'/'+folder) if f.endswith(".jpg") or f.endswith(".png")])
+        folder_list.append([folder+"/"+f for f in os.listdir(mypath+'/'+folder) if f.endswith(".jpg") or f.endswith(".jpeg")])
     
     for i in range(img_folder_count()):
         header.append("Image"+str(i+1))
