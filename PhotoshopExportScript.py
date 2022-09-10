@@ -4,10 +4,10 @@ import csv
 from os.path import isfile, join
 import glob
 import numpy
+import re
 
 # Get current path.
 mypath = os.getcwd()
-
 
 def create_spreadsheet():
     folders = img_folder_list()
@@ -54,16 +54,49 @@ def img_folder_count():
 def img_folder_list():
     return glob.glob('img*')
 
+def find_psd_files():
+    return glob.glob('templates/*.psd')
+
+def user_input(user_prompt):
+    return input(user_prompt)
+
+
+def smart_create_image_directories():
+    print("\nSmart Create Directories")
+    template_dictionary = {}
+    for count, template in enumerate(find_psd_files()):
+        print(str(count+1)+") "+ template.replace('templates/',''))
+        template_dictionary[str(count+1)] = template.replace('templates/','')
+
+    template_choice = str(user_input("Please select a template: "))
+
+    directories_count = re.findall("\d",template_dictionary[template_choice])
+    directories_count_int = 0
+    for number in directories_count:
+        directories_count_int+= int(number)
+    
+    for i in range(directories_count_int):
+        os.mkdir(mypath+'/img'+str(i+1))
+        print("[INFO] Image directories created.")
+    menu()
+
+def create_utility_directories():
+    try:
+        os.mkdir(mypath+'/psd')
+        os.mkdir(mypath+'/temp')
+        os.mkdir(mypath+'/output')
+        print("[INFO] Utility directories created.")
+        menu()
+    except:
+        print("[ERROR] Utility directories already exist.")
+        menu()
+
 def create_image_directories(img_count):
     # Create directories for each image.
     try:
         for i in range(img_count):
             os.mkdir(mypath+'/img'+str(i+1))
-        os.mkdir(mypath+'/psd')
-        os.mkdir(mypath+'/temp')
-        os.mkdir(mypath+'/output')
         print("[INFO] Image directories created.")
-        print("[INFO] Utility directories created.")
         menu()
     except:
         print("[ERROR] Image directories already exist.")
@@ -72,12 +105,12 @@ def create_image_directories(img_count):
 def menu():
 
     print("\nPS Batch Export Script")
-    print("1)Create CSV \n2)Reset Program \n3)Create Directories \n4)Exit")
+    print("1) Create CSV \n2) Create Utility Directories \n3) Create Directories \n4) Smart Create Directories \n5) Reset Program \n6) Exit")
     user = input()
     try:
         if user == "1":
             create_spreadsheet()
-        elif user == "2":
+        elif user == "5":
             print("[ALERT] DOING THIS WILL DELETE ALL IMG FOLDERS AND THEIR CONTENTS!")
             reset_program = input("Are you sure you want to reset the program? (y/n)")
             if reset_program == "y" or reset_program == "Y":
@@ -85,10 +118,14 @@ def menu():
             else:
                 print("[INFO] Reset Aborted.")
                 menu()
+        elif user == "2":
+            create_utility_directories()
         elif user == "3":
             img_count = input("How many image folders do you want to create? ")
             create_image_directories(int(img_count))
         elif user == "4":
+            smart_create_image_directories()
+        elif user == "5":
             print("[INFO] Program terminated.")
             exit()
 
