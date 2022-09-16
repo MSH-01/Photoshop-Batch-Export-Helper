@@ -1,7 +1,7 @@
 import glob
 import os
 import shutil
-from PhotoshopExportScript import menu
+import PhotoshopExportScript
 
 mypath = os.getcwd()
 
@@ -22,10 +22,10 @@ def create_image_directories(img_count):
         for i in range(img_count):
             os.mkdir(mypath+'/img'+str(i+1))
         print("[INFO] Image directories created.")
-        menu()
+        PhotoshopExportScript.menu()
     except:
         print("[ERROR] Image directories already exist.")
-        menu()
+        PhotoshopExportScript.menu()
 
 def find_psd_files():
     return glob.glob('templates/*.psd')
@@ -41,7 +41,7 @@ def reset_image_folders():
         else:
             print("[ALERT] /"+item+" not found.")
     print("[INFO] All folders reset.")
-    menu()
+    PhotoshopExportScript.menu()
 
 def img_folder_count():
     # Counts number of image folders.

@@ -1,5 +1,5 @@
 from util import *
-from PhotoshopExportScript import menu
+import PhotoshopExportScript
 import csv
 import numpy
 import re
@@ -12,7 +12,7 @@ def smart_create_image_directories():
             print(str(count+1)+") "+ template.replace('templates/',''))
             template_dictionary[str(count+1)] = template.replace('templates/','')
 
-        template_choice = str(user_input("Please select a template: "))
+        template_choice = str(PhotoshopExportScript.user_input("Please select a template: "))
 
         directories_count = re.findall("\d",template_dictionary[template_choice])
         directories_count_int = 0
@@ -24,10 +24,10 @@ def smart_create_image_directories():
         for i in range(directories_count_int):
             os.mkdir(mypath+'/img'+str(i+1))
             print("[INFO] Image directories created.")
-            menu()
+            PhotoshopExportScript.menu()
     except:
         print("[ERROR] Image directories already exist.")
-        menu()
+        PhotoshopExportScript.menu()
 
 def create_spreadsheet():
     folders = img_folder_list()
@@ -52,4 +52,4 @@ def create_spreadsheet():
 
     print("[INFO] Spreadsheet Created.")
 
-    menu()
+    PhotoshopExportScript.menu()
