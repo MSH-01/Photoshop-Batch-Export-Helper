@@ -1,5 +1,7 @@
 # Photoshop Batch Export
 
+__This project is being replaced with a UXP plugin. Continue to use this in the meantime.__
+
 ## Installation
 
 To use this script ensure you have the installed the requied python modules. To do this run ``pip install -r requirements.txt``.
