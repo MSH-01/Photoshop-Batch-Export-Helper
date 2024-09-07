@@ -4,7 +4,7 @@ __This project is being replaced with a UXP plugin. Continue to use this in the 
 
 ## Installation
 
-To use this script ensure you have the installed the requied python modules. To do this run ``pip install -r requirements.txt``.
+To use this script ensure you have installed the requied python modules. To do this run ``pip install -r requirements.txt``.
 
 ## Usage
 
